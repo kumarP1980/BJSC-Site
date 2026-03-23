@@ -8,7 +8,7 @@
   <link rel="apple-touch-icon" href="assets/images/bjsc-logo.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Bihar Jharkhand of South Carolina - Celebrating Culture, Community, and Connection." />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="./styles/style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Lora:wght@400;500&display=swap" rel="stylesheet">
@@ -30,8 +30,9 @@
           <li><a href="#home">Home</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#events">Events</a></li>
-          <li><a href="#gallery">Gallery</a></li>
+          <!--<li><a href="#gallery">Gallery</a></li>-->
           <li><a href="#membership">Membership</a></li>
+		  <li><a href="#board">Board of Director</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
       </nav>
@@ -105,18 +106,18 @@
             <div class="event-icon">☀️</div>
             <h3>Holi 2026</h3>
             <p class="event-meta">📅 March 29 • 12:00 PM</p>
-            <p class="event-meta">📍 BBQ Shelter, Gibson Pond Park, 241 Gibson Rd,Lexington</p>
+            <p class="event-meta"><a href="https://maps.app.goo.gl/NcH13h9455usyqY76" target="_blank">📍 BBQ Shelter, Gibson Pond Park, 241 Gibson Rd,Lexington</a></p>
             <p class="event-desc">
               Join us for festive food, music, games and colors.
             </p>
             <div class="event-actions">
-              <a href="#" class="btn btn-outline">View Details</a>
-              <a href="#" class="btn btn-link">Add to Calendar</a>
+              <a href="./pages/holi2026.htm" class="btn btn-outline">View Details</a>
+              <a href="https://calendar.app.google/G8xRX6k2foUNSQ436" class="btn btn-link" target="_blank">Add to Calendar</a>
             </div>
           </article>
 
           <!-- Event Card 2 (example) -->
-          <article class="event-card">
+          <!--<article class="event-card">
             <div class="event-corner"></div>
             <div class="event-icon">🪔</div>
             <h3>Diwali Night</h3>
@@ -129,13 +130,13 @@
               <a href="#" class="btn btn-outline">View Details</a>
               <a href="#" class="btn btn-link">Add to Calendar</a>
             </div>
-          </article>
+          </article>-->
         </div>
       </div>
     </section>
 
     <!-- Gallery Preview -->
-    <section id="gallery" class="section gallery">
+    <!--<section id="gallery" class="section gallery">
       <div class="container">
         <h2 class="section-title">Moments from Our Celebrations</h2>
         <div class="gallery-grid">
@@ -156,8 +157,83 @@
           <a href="#" class="btn btn-primary">View Full Gallery</a>
         </div>
       </div>
-    </section>
+    </section>-->
 
+	<!-- Board of Director -->
+    <!-- Board of Directors -->
+<section id="board" class="section board">
+  <div class="container">
+    <h2 class="section-title">Board of Directors</h2>
+
+    <div class="board-grid">
+
+      <!-- Member 1 -->
+      <div class="board-card">
+        <img src="assets/images/president.png" alt="Board Member" class="board-photo">
+        <h3 class="board-name">Amit Sharma</h3>
+        <p class="board-role">President</p>
+      </div>
+
+      <!-- Member 2 -->
+      <div class="board-card">
+        <img src="assets/images/vp.png" alt="Board Member" class="board-photo">
+        <h3 class="board-name">Ramesh Prasad</h3>
+        <p class="board-role">Vice President</p>
+      </div>
+
+      <!-- Member 3 -->
+      <div class="board-card">
+        <img src="assets/images/sec.png" alt="Board Member" class="board-photo">
+        <h3 class="board-name">Ajay Verma</h3>
+        <p class="board-role">Secretary</p>
+      </div>
+
+      <!-- Member 4 -->
+      <div class="board-card">
+        <img src="assets/images/tres.jpeg" alt="Board Member" class="board-photo">
+        <h3 class="board-name">Vishu Singh</h3>
+        <p class="board-role">Treasurer</p>
+      </div>
+
+      <!-- Member 5 -->
+      <div class="board-card">
+        <img src="assets/images/mem5.jpeg" alt="Board Member" class="board-photo">
+        <h3 class="board-name">Yashwant Shukla</h3>
+        <p class="board-role">Member at Large</p>
+      </div>
+
+      <!-- Member 6 -->
+      <div class="board-card">
+        <img src="assets/images/mem6.png" alt="Board Member" class="board-photo">
+        <h3 class="board-name">Premprakash Singh</h3>
+        <p class="board-role">Member at Large</p>
+      </div>
+
+      <!-- Member 7 -->
+      <div class="board-card">
+        <img src="assets/images/mem7.jpeg" alt="Board Member" class="board-photo">
+        <h3 class="board-name">Gautam Ghosh</h3>
+        <p class="board-role">Member at Large</p>
+      </div>
+
+      <!-- Member 8 -->
+      <div class="board-card">
+        <img src="assets/images/mem8.jpeg" alt="Board Member" class="board-photo">
+        <h3 class="board-name">Abhishek Sahu</h3>
+        <p class="board-role">Member at Large</p>
+      </div>
+
+      <!-- Member 9 -->
+      <div class="board-card">
+        <img src="assets/images/mem9.jpeg" alt="Board Member" class="board-photo">
+        <h3 class="board-name">Pranav Kumar</h3>
+        <p class="board-role">Member at Large</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+	
     <!-- Membership -->
     <section id="membership" class="section membership">
       <div class="container membership-inner">
@@ -175,29 +251,8 @@
           </ul>
         </div>
         <div class="membership-form-card">
-          <h3>Join BJSC</h3>
-          <form>
-            <label>
-              Full Name
-              <input type="text" name="name" placeholder="Your Name" required />
-            </label>
-            <label>
-              Email
-              <input type="email" name="email" placeholder="you@example.com" required />
-            </label>
-            <label>
-              Phone
-              <input type="tel" name="phone" placeholder="(xxx) xxx-xxxx" required />
-            </label>
-            <label>
-              Family Members
-              <input type="number" name="family" min="1" placeholder="e.g., 4" />
-            </label>
-            <!-- Hook this to payment or backend later -->
-            <button type="submit" class="btn btn-primary full-width">Submit</button>
-          </form>
-        </div>
-      </div>
+          <a href="https://forms.gle/aZAygiygcMU9hm677" class="btn btn-primary" target="_blank">Join BJSC</a>
+		</div>
     </section>
 
     <!-- Contact -->
@@ -209,9 +264,9 @@
             Have questions, ideas, or want to collaborate? We’d love to hear from you.
           </p>
           <ul class="contact-list">
-            <li><span>📧</span> <a href="mailto:info@bjsc.org">biharjharkhandofsc@gmail.com</a></li>
-            <li><span>📞</span> <a href="tel:+18000000000">+1 (839) 205‑9165</a></li>
-            <li><span📍</span> Lexington, South Carolina</li>
+            <li><span>📧</span> <a href="mailto:contactus@bjofsc.com">contactus@bjofsc.com</a></li>
+            <li><span>📞</span> <a href="tel:+18392059165">+1 (839) 205‑9165</a></li>
+            <li><span>📍</span> Lexington, South Carolina</li>
           </ul>
           <div class="social-links">
             <a href="https://www.facebook.com/groups/1890253281744602" target="_blank">
@@ -225,12 +280,12 @@
 			</a>
           </div>
         </div>
-        <div class="contact-map">
+        <!--<div class="contact-map">
           <!-- Replace with real map embed if you want -->
-          <div class="map-placeholder">
+         <!-- <div class="map-placeholder">
             Google Maps Embed / Venue Location
           </div>
-        </div>
+        </div>-->
       </div>
     </section>
   </main>
@@ -257,8 +312,8 @@
       <div class="footer-col">
         <h4>Contact</h4>
         <ul>
-          <li><a href="mailto:info@bjsc.org">info@bjsc.org</a></li>
-          <li><a href="tel:+18000000000">+1 (800) 000‑0000</a></li>
+          <li><a href="mailto:contactus@bjofsc.com">contactus@bjofsc.com</a></li>
+          <li><a href="tel:+18392059165">+1 (839) 205‑9165</a></li>
         </ul>
       </div>
     </div>
