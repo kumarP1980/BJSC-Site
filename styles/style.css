@@ -846,3 +846,86 @@ a {
     border-radius: var(--radius-lg);
   }
 }
+
+/* ============================================================
+   SPONSORS SECTION — BJSC DESIGN SYSTEM
+   ============================================================ */
+
+.sponsors-section {
+  padding: 3rem 0;
+  background: #faf7f2; /* soft warm tone matching BJSC aesthetic */
+}
+
+.sponsors-section .section-title {
+  font-family: "Montserrat", sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--color-navy);
+  margin-bottom: 0.5rem;
+}
+
+.sponsors-section .section-subtitle {
+  text-align: center;
+  font-size: 1rem;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  color: #444;
+}
+
+.sponsors-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  align-items: center;
+}
+
+.sponsor-card {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.sponsor-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-medium);
+}
+
+.sponsor-logo {
+  max-width: 140px;
+  max-height: 80px;
+  object-fit: contain;
+  filter: saturate(1.1);
+}
+
+
+/* bjsc-style sponsor grid */
+
+.bjsc-sponsor-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.bjsc-sponsor-card {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px; /* bjsc card height */
+}
+
+.bjsc-sponsor-card img {
+  max-width: 180px;
+  max-height: 90px;
+  object-fit: contain;
+}
