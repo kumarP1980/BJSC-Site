@@ -573,8 +573,8 @@ a {
 }
 
 .social-links a {
-  width: 28px;
-  height: 28px;
+  width: 40px;
+  height: 40px;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.7);
   display: inline-flex;
@@ -665,15 +665,15 @@ a {
 }
 
 .logo-img {
-  height: 48px;          /* Adjust size as needed */
+  height: 120px;          /* Adjust size as needed */
   width: auto;
-  border-radius: 50%;    /* Keeps the circular shape crisp */
+  border-radius: 70%;    /* Keeps the circular shape crisp */
   object-fit: contain;
 }
 
 @media (min-width: 768px) {
   .logo-img {
-    height: 100px;
+    height: 120px;
   }
 }
 
