@@ -21,27 +21,24 @@
     <img src="../assets/images/bjsc-logo.png" alt="BJSC Logo" class="holi-logo">       
     <h1 class="holi-title">BJSC ByLaws</h1>
   </div>
+  
 </header>
 
-<object
-  data="../assets/bylaws/BYLAWSOFBJSC_V1.1.pdf"
-  type="application/pdf"
-  width="100%"
-  height="600px"
->
-  <iframe
-    src="../assets/bylaws/BYLAWSOFBJSC_V1.1.pdf"
-    width="100%"
-    height="600px"
-    style="border: none;"
-  >
-    <p>
-      Your browser does not support PDF viewing.
-      <a href="https://example.com/test.pdf">Download the PDF</a>.
+<style>
+    .pdf-container {
+        width: 100%;
+        height: 100vh; /* Full viewport height */
+        border: none;
+    }
+</style>
+
+<object data="../assets/bylaws/BYLAWSOFBJSC_V1.1.pdf" type="application/pdf" class="pdf-container">
+    <embed src="../assets/bylaws/BYLAWSOFBJSC_V1.1.pdf" type="application/pdf" />
+    <p>This browser does not support PDFs. Please download the PDF to view it: 
+        <a href="../assets/bylaws/BYLAWSOFBJSC_V1.1.pdf">Download PDF</a>
     </p>
-  </iframe>
 </object>
-<!--<iframe src="../assets/bylaws/BYLAWSOFBJSC_V1.1.pdf#toolbar=0&navpanes=0&scrollbar=0" width="100%" height="600px"></iframe>-->
+
 
 <!-- ================= FOOTER ================= -->
 <footer class="site-footer">
