@@ -929,3 +929,106 @@ a {
   max-height: 90px;
   object-fit: contain;
 }
+
+.page-content {
+  padding: 1rem 0 2rem;
+}
+
+.pdf-viewer-section {
+  width: 100%;
+}
+
+.pdf-frame {
+  width: 100%;
+  min-height: 80vh;
+  border: none;
+  background: #fff;
+}
+
+.pdf-fallback {
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
+  color: #5f6a78;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.site-header {
+  background: #fff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 1rem 0;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  color: #1f1f1f;
+}
+
+.holi-logo {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+}
+
+.brand-copy {
+  display: grid;
+}
+
+.brand-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.brand-subtitle {
+  font-size: 0.85rem;
+  color: #5f6a78;
+}
+
+.page-heading {
+  text-align: right;
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #8c1f2f;
+  font-weight: 700;
+}
+
+.holi-title {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+@media (max-width: 640px) {
+  .header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .page-heading {
+    text-align: left;
+  }
+}

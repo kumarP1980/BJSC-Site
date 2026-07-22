@@ -16,15 +16,24 @@
 <body>
 
 <!-- ================= HEADER (STYLE 1) ================= -->
+
 <header class="site-header">
   <div class="container header-inner">
-    <img src="../assets/images/bjsc-logo.png" alt="BJSC Logo" class="holi-logo">       
-    <h1 class="holi-title">BJSC ByLaws</h1>
+    <a class="brand-link" href="../index.html" aria-label="Go to BJSC homepage">
+      <img src="../assets/images/bjsc-logo.png" alt="BJSC Logo" class="holi-logo" />
+      <div class="brand-copy">
+        <span class="brand-name">BJSC</span>
+        <span class="brand-subtitle">Bihar Jharkhand of South Carolina</span>
+      </div>
+    </a>
+
+    <div class="page-heading">
+       <h1 class="holi-title">BJSC ByLaws</h1>
+    </div>
   </div>
-  
 </header>
 
-<style>
+<!--<style>
     .pdf-container {
         width: 100%;
         height: 100vh; /* Full viewport height */
@@ -37,7 +46,26 @@
     <p>This browser does not support PDFs. Please download the PDF to view it: 
         <a href="../assets/bylaws/BYLAWSOFBJSC_V1.1.pdf">Download PDF</a>
     </p>
-</object>
+</object>-->
+<main class="page-content">
+  <section class="pdf-viewer-section" aria-labelledby="bylaws-title">
+    <h2 id="bylaws-title" class="sr-only">BJSC ByLaws PDF</h2>
+
+    <iframe
+      class="pdf-frame"
+      title="BJSC ByLaws PDF"
+      src="../assets/bylaws/BYLAWSOFBJSC_V1.1.pdf"
+      loading="lazy"
+    ></iframe>
+
+    <p class="pdf-fallback">
+      Your browser does not support inline PDF viewing.
+      <a href="../assets/bylaws/BYLAWSOFBJSC_V1.1.pdf" target="_blank" rel="noopener noreferrer">
+        Download the PDF
+      </a>
+    </p>
+  </section>
+</main>
 
 
 <!-- ================= FOOTER ================= -->
