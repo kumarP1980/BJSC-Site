@@ -1007,6 +1007,11 @@ a {
   text-align: right;
 }
 
+
+.page-headingyb {
+  text-align: center;
+}
+
 .eyebrow {
   margin: 0;
   font-size: 0.72rem;
@@ -1031,4 +1036,9 @@ a {
   .page-heading {
     text-align: left;
   }
+}
+
+.publication-image {
+    width: 300px;
+    height: 150px;
 }
