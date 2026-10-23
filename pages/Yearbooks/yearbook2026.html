@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yearbook 2026</title>
+	<link rel="stylesheet" href="../../styles/style.css" />
+    
+    <!-- Tailwind CSS for Layout and Styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- PageFlip JS Library (Browser bundle) -->
+    <!-- Loading synchronously in the head ensures window.St is available when DOMContentLoaded fires -->
+    <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
+
+    <style>
+        body {
+            background-color: #f3f4f6; /* Tailwind gray-100 */
+            margin: 10;
+            padding: 10;
+            overflow-x: hidden;
+        }
+
+        /* 
+         * PageFlip Core Styles
+         * These are necessary for the library to properly structure and shade the 3D pages.
+         */
+        .flip-book {
+            box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
+            display: none; /* Hidden until initialized to prevent FOUC */
+        }
+        
+        .page {
+            background-color: #ffffff;
+            color: #333;
+            overflow: hidden;
+            /* Inner shadow for realism */
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+        }
+
+        .page img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            user-select: none; /* Prevent image dragging */
+        }
+
+        /* Styling for the hard cover pages */
+        .page.--cover {
+            background-color: #1e293b;
+        }
+
+        /* Shadow realism for left/right pages */
+        .page.--left {
+            border-right: 1px solid rgba(0,0,0,0.1);
+        }
+        .page.--right {
+            border-left: 1px solid rgba(0,0,0,0.1);
+        }
+
+        /* Custom scrollbar for the body */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e2e8f0; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #94a3b8; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b; 
+        }
+		
+		/* Zoom Wrapper Styles */
+        #zoom-wrapper {
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transform-origin: center top; /* Scale from the top center */
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            min-height: min-content;
+        }
+    </style>
+<link rel="icon" type="image/png" href="../../assets/images/bjsc-logo.png" />	
+</head>
+<body class="min-h-screen flex flex-col font-sans text-slate-800">
+
+    <!-- Header / Navigation Bar -->
+    <header class="bg-white shadow-md border-b border-slate-200 sticky top-0 z-50 px-4 py-3 flex items-center justify-between">
+		  <div class="container header-inner">
+			<a class="brand-link" href="../../index.html" aria-label="Go to BJSC homepage">
+			  <img src="../../assets/images/bjsc-logo.png" alt="BJSC Logo" class="holi-logo" />
+			  <div class="brand-copy">
+				<span class="brand-name">BJSC</span>
+				<span class="holi-title">Yearbook 2026</span>
+			  </div>
+			</a>
+
+
+		<!-- Zoom Controls -->
+        <div class="flex items-center bg-slate-100 rounded-xl p-1 border border-slate-200">
+            <button id="btn-zoom-out" class="w-9 h-9 flex items-center justify-center text-slate-600 hover:text-amber-600 hover:bg-white rounded-lg transition-all" title="Zoom Out">
+                <i class="fa-solid fa-magnifying-glass-minus"></i>
+            </button>
+            <button id="btn-zoom-reset" class="px-3 h-9 flex items-center justify-center text-sm font-semibold text-slate-600 hover:text-amber-600 hover:bg-white rounded-lg transition-all" title="Reset Zoom">
+                100%
+            </button>
+            <button id="btn-zoom-in" class="w-9 h-9 flex items-center justify-center text-slate-600 hover:text-amber-600 hover:bg-white rounded-lg transition-all" title="Zoom In">
+                <i class="fa-solid fa-magnifying-glass-plus"></i>
+            </button>
+        </div>
+        <!-- Controls -->
+        <div class="flex items-center bg-slate-100 rounded-xl p-1 border border-slate-200">
+            <button id="btn-prev" class="w-5 h-8 flex items-center justify-center text-slate-600 hover:text-indigo-600 hover:bg-white rounded-lg disabled:opacity-30 disabled:hover:bg-transparent disabled:cursor-not-allowed transition-all" title="Previous Page">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            
+            <div class="px-3 flex items-center text-sm font-semibold text-slate-600 min-w-[80px] justify-center">
+                <span id="page-current">1</span>
+                <span class="mx-1 text-slate-400">/</span>
+                <span id="page-total">22</span>
+            </div>
+
+            <button id="btn-next" class="w-10 h-10 flex items-center justify-center text-slate-600 hover:text-indigo-600 hover:bg-white rounded-lg disabled:opacity-30 disabled:hover:bg-transparent disabled:cursor-not-allowed transition-all" title="Next Page">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Flipbook Container -->
+    <main id="main-scroll-area" class="flex-grow w-full overflow-auto relative p-4 sm:p-8">
+        <div id="zoom-wrapper">
+        <!-- Error State Display (Hidden by default) -->
+        <div id="error-message" class="hidden text-center bg-red-100 text-red-700 p-6 rounded-xl border border-red-200 max-w-lg">
+            <i class="fa-solid fa-triangle-exclamation text-3xl mb-3"></i>
+            <h2 class="text-lg font-bold">Failed to load Flipbook</h2>
+            <p class="text-sm mt-2">The page-flip library could not be initialized. Please check your internet connection or browser extensions and refresh the page.</p>
+        </div>
+
+        <!-- The Book Wrapper -->
+        <!-- The aspect ratio and max heights determine the responsive boundary of the stretch size -->
+        <div id="book-wrapper" class="w-full h-[65vh] md:h-[80vh] flex items-center justify-center relative">
+            <div id="book" class="flip-book">
+                <!-- Page 1: Front Cover (Hard) -->
+                <div class="page page-cover page-cover-top" data-density="hard">
+                    <div class="page-content w-full h-full relative group">
+                        <img src="../../assets/images/YBook2026/YEAR BOOK 2026_page-0001.jpg" alt="Front Cover">
+                        <div class="absolute inset-0 bg-black/20 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <h2 class="text-3xl font-bold mb-2 shadow-sm">Front Cover</h2>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Page 2 -->
+                <div class="page">
+                    <div class="page-content w-full h-full relative">
+                        <img src="../../assets/images/YBook2026/YEAR BOOK 2026_page-0002.jpg" alt="Page 2">
+                        <div class="absolute bottom-4 left-4 bg-white/80 backdrop-blur-sm text-slate-800 text-xs font-bold px-2 py-1 rounded shadow-sm">2</div>
+                    </div>
+                </div>
+
+                <!-- Page 3 -->
+                <div class="page">
+                    <div class="page-content w-full h-full relative">
+                        <img src="../../assets/images/YBook2026/YEAR BOOK 2026_page-0003.jpg" alt="Page 3">
+                        <div class="absolute bottom-4 left-4 bg-white/80 backdrop-blur-sm text-slate-800 text-xs font-bold px-2 py-1 rounded shadow-sm">3</div>
+                    </div>
+                </div>
+
+                <!-- Page 4 -->
+                <div class="page">
+                    <div class="page-content w-full h-full relative">
+                        <img src="../../assets/images/YBook2026/YEAR BOOK 2026_page-0004.jpg" alt="Page 4">
+                        <div class="absolute bottom-4 left-4 bg-white/80 backdrop-blur-sm text-slate-800 text-xs font-bold px-2 py-1 rounded shadow-sm">4</div>
+                    </div>
+                </div>
+
+                <!-- Page 5 -->
+                <div class="page">
+                    <div class="page-content w-full h-full relative">
+                        <img src="../../assets/images/YBook2026/YEAR BOOK 2026_page-0005.jpg" alt="Page 5">
+                        <div class="absolute bottom-4 left-4 bg-white/80 backdrop-blur-sm text-slate-800 text-xs font-bold px-2 py-1 rounded shadow-sm">5</div>
+                    </div>
+                </div>
+				
+				<!-- Page 6 -->
+                <div class="page">
+                    <div class="page-content w-full h-full relative">
+                        <img src="../../assets/images/YBook2026/YEAR BOOK 2026_page-0006.jpg" alt="Page 6">
+                        <div class="absolute bottom-4 left-4 bg-white/80 backdrop-blur-sm text-slate-800 text-xs font-bold px-2 py-1 rounded shadow-sm">6</div>
+                    </div>
+                </div>
+				
+				<!-- Page 7 -->
+                <div class="page">
+                    <div class="page-content w-full h-full relative">
+                        <img src="../../assets/images/YBook2026/YEAR BOOK 2026_page-0007.jpg" alt="Page 7">
+                        <div class="absolute bottom-4 left-4 bg-white/80 backdrop-blur-sm text-slate-800 text-xs font-bold px-2 py-1 rounded shadow-sm">7</div>
+                    </div>
+                </div>
+
+				<!-- Page 8 -->
+                <div class="page">
+                    <div class="page-content w-full h-full relative">
+                        <img src="../../assets/images/YBook2026/YEAR BOOK 2026_page-0008.jpg" alt="Page 8">
+                        <div class="absolute bottom-4 left-4 bg-white/80 backdrop-blur-sm text-slate-800 text-xs font-bold px-2 py-1 rounded shadow-sm">8</div>
+                    </div>
+                </div>
+				
+				<!-- Page 9 -->
+                <div class="page">
+                    <div class="page-content w-full h-full relative">
+                        <img src="../../assets/images/YBook2026/YEAR BOOK 2026_page-0009.jpg" alt="Page 9">
+                        <div class="absolute bottom-4 left-4 bg-white/80 backdrop-blur-sm text-slate-800 text-xs font-bold px-2 py-1 rounded shadow-sm">9</div>
+                    </div>
+                </div>
+				
+				<!-- Page 10 -->
+                <div class="page">
+                    <div class="page-content w-full h-full relative">
+                        <img src="../../assets/images/YBook2026/YEAR BOOK 2026_page-0010.jpg" alt="Page 10">
+                        <div class="absolute bottom-4 left-4 bg-white/80 backdrop-blur-sm text-slate-800 text-xs font-bold px-2 py-1 rounded shadow-sm">10</div>
+                    </div>
+                </div>
+				
+				<!-- Page 11 -->
+                <div class="page">
+                    <div class="page-content w-full h-full relative">
+                        <img src="../../assets/images/YBook2026/YEAR BOOK 2026_page-0011.jpg" alt="Page 11">
+                        <div class="absolute bottom-4 left-4 bg-white/80 backdrop-blur-sm text-slate-800 text-xs font-bold px-2 py-1 rounded shadow-sm">11</div>
+                    </div>
+                </div>
+				
+				<!-- Page 12 -->
+                <div class="page">
+                    <div class="page-content w-full h-full relative">
+                        <img src="../../assets/images/YBook2026/YEAR BOOK 2026_page-0012.jpg" alt="Page 12">
+                        <div class="absolute bottom-4 left-4 bg-white/80 backdrop-blur-sm text-slate-800 text-xs font-bold px-2 py-1 rounded shadow-sm">12</div>
+                    </div>
+                </div>
+				
+				<!-- Page 13 -->
+                <div class="page">
+                    <div class="page-content w-full h-full relative">
+                        <img src="../../assets/images/YBook2026/YEAR BOOK 2026_page-0013.jpg" alt="Page 13">
+                        <div class="absolute bottom-4 left-4 bg-white/80 backdrop-blur-sm text-slate-800 text-xs font-bold px-2 py-1 rounded shadow-sm">13</div>
+                    </div>
+                </div>
+				
+				<!-- Page 14 -->
+                <div class="page">
+                    <div class="page-content w-full h-full relative">
+                        <img src="../../assets/images/YBook2026/YEAR BOOK 2026_page-0014.jpg" alt="Page 13">
+                        <div class="absolute bottom-4 left-4 bg-white/80 backdrop-blur-sm text-slate-800 text-xs font-bold px-2 py-1 rounded shadow-sm">13</div>
+                    </div>
+                </div>
+				
+				<!-- Page 15 -->
+                <div class="page">
+                    <div class="page-content w-full h-full relative">
+                        <img src="../../assets/images/YBook2026/YEAR BOOK 2026_page-0015.jpg" alt="Page 13">
+                        <div class="absolute bottom-4 left-4 bg-white/80 backdrop-blur-sm text-slate-800 text-xs font-bold px-2 py-1 rounded shadow-sm">13</div>
+                    </div>
+                </div>
+				
+				<!-- Page 16 -->
+                <div class="page">
+                    <div class="page-content w-full h-full relative">
+                        <img src="../../assets/images/YBook2026/YEAR BOOK 2026_page-0016.jpg" alt="Page 13">
+                        <div class="absolute bottom-4 left-4 bg-white/80 backdrop-blur-sm text-slate-800 text-xs font-bold px-2 py-1 rounded shadow-sm">13</div>
+                    </div>
+                </div>
+				
+				<!-- Page 17 -->
+                <div class="page">
+                    <div class="page-content w-full h-full relative">
+                        <img src="../../assets/images/YBook2026/YEAR BOOK 2026_page-0017.jpg" alt="Page 13">
+                        <div class="absolute bottom-4 left-4 bg-white/80 backdrop-blur-sm text-slate-800 text-xs font-bold px-2 py-1 rounded shadow-sm">13</div>
+                    </div>
+                </div>
+				
+				<!-- Page 18 -->
+                <div class="page">
+                    <div class="page-content w-full h-full relative">
+                        <img src="../../assets/images/YBook2026/YEAR BOOK 2026_page-0018.jpg" alt="Page 13">
+                        <div class="absolute bottom-4 left-4 bg-white/80 backdrop-blur-sm text-slate-800 text-xs font-bold px-2 py-1 rounded shadow-sm">13</div>
+                    </div>
+                </div>
+				
+				<!-- Page 19 -->
+                <div class="page">
+                    <div class="page-content w-full h-full relative">
+                        <img src="../../assets/images/YBook2026/YEAR BOOK 2026_page-0019.jpg" alt="Page 13">
+                        <div class="absolute bottom-4 left-4 bg-white/80 backdrop-blur-sm text-slate-800 text-xs font-bold px-2 py-1 rounded shadow-sm">13</div>
+                    </div>
+                </div>
+				
+				<!-- Page 20 -->
+                <div class="page">
+                    <div class="page-content w-full h-full relative">
+                        <img src="../../assets/images/YBook2026/YEAR BOOK 2026_page-0020.jpg" alt="Page 13">
+                        <div class="absolute bottom-4 left-4 bg-white/80 backdrop-blur-sm text-slate-800 text-xs font-bold px-2 py-1 rounded shadow-sm">13</div>
+                    </div>
+                </div>
+				
+				<!-- Page 21 -->
+                <div class="page">
+                    <div class="page-content w-full h-full relative">
+                        <img src="../../assets/images/YBook2026/YEAR BOOK 2026_page-0021.jpg" alt="Page 13">
+                        <div class="absolute bottom-4 left-4 bg-white/80 backdrop-blur-sm text-slate-800 text-xs font-bold px-2 py-1 rounded shadow-sm">13</div>
+                    </div>
+                </div>
+				
+                <!-- Page 22: Back Cover (Hard) -->
+                <div class="page page-cover page-cover-bottom" data-density="hard">
+                    <div class="page-content w-full h-full relative group">
+                        <img src="../../assets/images/YBook2026/YEAR BOOK 2026_page-0022.jpg" alt="Back Cover">
+                        <div class="absolute inset-0 bg-black/20 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <h2 class="text-3xl font-bold mb-2 shadow-sm">Back Cover</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	  </div>	
+    </main>
+
+    <!-- Footer Instructions -->
+    <footer class="bg-white border-t border-slate-200 text-center py-3 text-sm text-slate-500">
+        <p><i class="fa-solid fa-hand-pointer mr-1"></i> Click on the edges of the pages or drag to flip. On mobile, swipe to turn pages.</p>
+    </footer>
+
+    <script>
+        // Wait strictly for the DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // 1. Verification Step: Ensure library loaded correctly from CDN
+            if (typeof St === 'undefined' || !St.PageFlip) {
+                console.error("St.PageFlip is undefined. The CDN script failed to load.");
+                document.getElementById('book-wrapper').style.display = 'none';
+                document.getElementById('error-message').classList.remove('hidden');
+                return;
+            }
+
+            // 2. Selectors
+            const bookElement = document.getElementById('book');
+            const btnNext = document.getElementById('btn-next');
+            const btnPrev = document.getElementById('btn-prev');
+            const currentText = document.getElementById('page-current');
+            const totalText = document.getElementById('page-total');
+			
+			// Zoom Elements
+            const zoomWrapper = document.getElementById('zoom-wrapper');
+            const btnZoomIn = document.getElementById('btn-zoom-in');
+            const btnZoomOut = document.getElementById('btn-zoom-out');
+            const btnZoomReset = document.getElementById('btn-zoom-reset');
+            const zoomText = document.getElementById('btn-zoom-reset');
+
+            // 3. Initialize St.PageFlip
+            // Using "stretch" size enables auto-responsiveness inside the parent container.
+            // usePortrait: true ensures that when the screen is narrow (mobile), it shows one page.
+            const pageFlip = new St.PageFlip(bookElement, {
+                width: 600,               // Base width of a single page
+                height: 500,              // Base height of a single page
+                size: "stretch",          // Stretch to fill parent container while keeping aspect ratio
+                minWidth: 300,            // Minimum width of a single page
+                maxWidth: 1000,           // Maximum width of a single page
+                minHeight: 400,           // Minimum height of a single page
+                maxHeight: 1200,          // Maximum height of a single page
+                maxShadowOpacity: 0.5,    // Shadow intensity for realism
+                showCover: true,          // Renders the first and last pages as hard covers
+                mobileScrollSupport: false, // Prevents page scrolling when flipping on mobile
+                usePortrait: true,        // CRITICAL for mobile: switch to single page on narrow screens
+                flippingTime: 800         // Milliseconds for the flip animation
+            });
+
+			
+            // 4. Load the DOM nodes into the library
+            const pages = document.querySelectorAll('.page');
+            pageFlip.loadFromHTML(pages);
+
+            // Display the book now that it's initialized
+            bookElement.style.display = 'block';
+
+            // Set total pages count in UI
+            totalText.textContent = pageFlip.getPageCount();
+
+            // 5. Setup Navigation Button Click Events
+            btnNext.addEventListener('click', () => {
+                pageFlip.flipNext();
+            });
+
+            btnPrev.addEventListener('click', () => {
+                pageFlip.flipPrev();
+            });
+
+            // 6. Setup Flip Event Listener to update UI state
+            pageFlip.on('flip', (e) => {
+                // e.data contains the index of the current page being viewed.
+                // In double-page spread, it's the index of the left page.
+                const currentPageIndex = e.data;
+                const totalPages = pageFlip.getPageCount();
+                
+                // Update the text counter (converting 0-index to 1-index)
+                // If we are in landscape (double page) we might show a range, but for simplicity, we show current index + 1
+                let displayPage = currentPageIndex + 1;
+                
+                // If it's the cover or back cover, or we are in portrait mode, we show 1 page number.
+                // If it's a spread, showing the left page number is standard.
+                currentText.textContent = displayPage;
+
+                // Disable/Enable Prev Button
+                if (currentPageIndex === 0) {
+                    btnPrev.disabled = true;
+                } else {
+                    btnPrev.disabled = false;
+                }
+
+                // Disable/Enable Next Button
+                // In single-page mode (portrait), the last index is totalPages - 1
+                // In double-page mode (landscape), the last index is totalPages - 2 (except for the back cover)
+                if (currentPageIndex >= totalPages - 1 || 
+                   (pageFlip.getOrientation() === 'landscape' && currentPageIndex >= totalPages - 2 && currentPageIndex !== 0)) {
+                    btnNext.disabled = true;
+                } else {
+                    btnNext.disabled = false;
+                }
+            });
+
+            // Initialize button states on load
+            btnPrev.disabled = true;
+
+            // Handle orientation changes to update button states correctly
+            pageFlip.on('changeOrientation', (e) => {
+                // Trigger a re-evaluation of the button states
+                const currentIdx = pageFlip.getCurrentPageIndex();
+                pageFlip.flip(currentIdx); // slight hack to force the 'flip' event logic to re-run
+            });
+			            // --- 3. EVENT LISTENERS (NAVIGATION) ---
+            
+            // UI Buttons
+            btnNext.addEventListener('click', () => {
+                if (pageFlip.getCurrentPageIndex() < pageFlip.getPageCount() - 1) {
+                    pageFlip.flipNext();
+                }
+            });
+            btnPrev.addEventListener('click', () => {
+                if (pageFlip.getCurrentPageIndex() > 0) {
+                    pageFlip.flipPrev();
+                }
+            });
+
+            // Keyboard Navigation (Left/Right Arrows)
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight') {
+                    if (pageFlip.getCurrentPageIndex() < pageFlip.getPageCount() - 1) {
+                        pageFlip.flipNext();
+                    }
+                } else if (e.key === 'ArrowLeft') {
+                    if (pageFlip.getCurrentPageIndex() > 0) {
+                        pageFlip.flipPrev();
+                    }
+                }
+            });
+
+            // Update UI Counters and Button States on Flip
+            pageFlip.on('flip', (e) => {
+                const currentPageIndex = e.data;
+                const totalPages = pageFlip.getPageCount();
+                
+                // Show current page (1-based index)
+                currentText.textContent = currentPageIndex + 1;
+
+                // Disable/Enable Buttons based on position
+                btnPrev.disabled = (currentPageIndex === 0);
+                
+                // Calculate next button state based on orientation
+                if (currentPageIndex >= totalPages - 1 || 
+                   (pageFlip.getOrientation() === 'landscape' && currentPageIndex >= totalPages - 2 && currentPageIndex !== 0)) {
+                    btnNext.disabled = true;
+                } else {
+                    btnNext.disabled = false;
+                }
+            });
+
+            // Re-evaluate on orientation change (e.g., resizing window from landscape to portrait mobile)
+            pageFlip.on('changeOrientation', (e) => {
+                const currentIdx = pageFlip.getCurrentPageIndex();
+                pageFlip.flip(currentIdx); // Re-trigger flip logic to update UI text correctly
+            });
+
+            // --- ZOOM / MAGNIFY LOGIC ---
+            let currentZoom = 1;
+            const ZOOM_STEP = 0.5;
+            const MAX_ZOOM = 3;
+            const MIN_ZOOM = 0.5;
+
+            function updateZoom() {
+                // Apply CSS Transform scale
+                zoomWrapper.style.transform = `scale(${currentZoom})`;
+                
+                // Update Button Text
+                zoomText.textContent = `${Math.round(currentZoom * 100)}%`;
+                
+                // Adjust transform origin if zoomed in so it doesn't get cut off on the top/left
+                if (currentZoom > 1) {
+                    zoomWrapper.style.transformOrigin = "top left";
+                    // Change main area to allow better scrolling
+                    document.getElementById('main-scroll-area').style.overflow = "auto";
+                } else {
+                    zoomWrapper.style.transformOrigin = "center top";
+                }
+            }
+
+            btnZoomIn.addEventListener('click', () => {
+                if (currentZoom < MAX_ZOOM) {
+                    currentZoom += ZOOM_STEP;
+                    updateZoom();
+                }
+            });
+
+            btnZoomOut.addEventListener('click', () => {
+                if (currentZoom > MIN_ZOOM) {
+                    currentZoom -= ZOOM_STEP;
+                    updateZoom();
+                }
+            });
+
+            btnZoomReset.addEventListener('click', () => {
+                currentZoom = 1;
+                updateZoom();
+            });
+        });
+		
+		
+    </script>
+<!-- ================= FOOTER ================= -->
+<footer class="site-footer">
+  <div class="footer-border"></div>
+  <div class="container footer-inner">
+    <div class="footer-col">
+      <h4>About BJSC</h4>
+      <p>BJSC brings together the Bihar and Jharkhand community in South Carolina to celebrate culture, festivals, and togetherness.</p>
+    </div>
+
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="../index.html#home">Home</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="mailto:contactus@bjofsc.com">contactus@bjofsc.com</a></li>
+        <li><a href="tel:+18392059165">+1 (839) 205-9165</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>Designed with ❤️ for the BJSC Community</p>
+    <p>&copy; <span id="year"></span> Bihar Jharkhand of South Carolina. All rights reserved.</p>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</footer>
+</body>
+</html>
