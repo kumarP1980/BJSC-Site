@@ -144,20 +144,10 @@
       <div class="container">
         <h2 class="section-title">Moments from Our Celebrations</h2>
         <div class="gallery-grid">
-          <div class="gallery-item gallery-item-1">
-            <a href="https://photos.app.goo.gl/gGAKmYZsdRKqpMtw5" target="_blank">
-			<img src="assets/images/Diwali.jpg" alt="Diwali2025">
-			<h3><span class="gallery-label">Diwali Night 2025</span></h3></a>
-          </div>
-          <div class="gallery-item gallery-item-2">
-            <a href="https://photos.app.goo.gl/V6F18N3WU1HFC1Nx9" target="_blank">
-			<img src="assets/images/Makar2026.jpeg" alt="Makar2026">
-			<h3><span class="gallery-label">Makarsankranti 2026</span></h3></a>
-          </div>
-          <div class="gallery-item gallery-item-3">
-            <a href="https://photos.app.goo.gl/dQ4SFJug5rbbu7fq9" target="_blank">
-			<img src="assets/images/Holi.jpg" alt="Holi2026">
-			<h3><span class="gallery-label">Holi 2026</span></h3></a>
+		 <div class="gallery-item gallery-item-3">
+            <a href="https://photos.app.goo.gl/5r8pYhFf7tkuSZ5r6" target="_blank">
+			<img src="assets/images/Diwali2026.jpg" alt="Diwali2026">
+			<h3><span class="gallery-label">Diwali 2026</span></h3></a>
           </div>
 		  <div class="gallery-item gallery-item-3">
             <a href="https://photos.app.goo.gl/3juSCuDyPjJU9hCi7" target="_blank">
@@ -165,10 +155,20 @@
 			<h3><span class="gallery-label">Picnic 2026</span></h3></a>
           </div>
 		  <div class="gallery-item gallery-item-3">
-            <a href="https://photos.app.goo.gl/5r8pYhFf7tkuSZ5r6" target="_blank">
-			<img src="assets/images/Diwali2026.jpg" alt="Diwali2026">
-			<h3><span class="gallery-label">Diwali 2026</span></h3></a>
+            <a href="https://photos.app.goo.gl/dQ4SFJug5rbbu7fq9" target="_blank">
+			<img src="assets/images/Holi.jpg" alt="Holi2026">
+			<h3><span class="gallery-label">Holi 2026</span></h3></a>
           </div>
+		  <div class="gallery-item gallery-item-2">
+            <a href="https://photos.app.goo.gl/V6F18N3WU1HFC1Nx9" target="_blank">
+			<img src="assets/images/Makar2026.jpeg" alt="Makar2026">
+			<h3><span class="gallery-label">Makarsankranti 2026</span></h3></a>
+          </div>
+          <div class="gallery-item gallery-item-1">
+            <a href="https://photos.app.goo.gl/gGAKmYZsdRKqpMtw5" target="_blank">
+			<img src="assets/images/Diwali.jpg" alt="Diwali2025">
+			<h3><span class="gallery-label">Diwali Night 2025</span></h3></a>
+          </div>		  
         </div>
       </div>
     </section>
@@ -404,5 +404,16 @@
       document.getElementById('year').textContent = new Date().getFullYear();
     </script>
   </footer>
+  <script>
+	  document.addEventListener('DOMContentLoaded', () => {
+	  const navToggle = document.querySelector('.nav-toggle');
+	  const navLinks = document.querySelector('.nav-links');
+
+	  navToggle.addEventListener('click', () => {
+		navLinks.classList.toggle('active');
+	  });
+	});
+	</script>
+  
 </body>
 </html>
