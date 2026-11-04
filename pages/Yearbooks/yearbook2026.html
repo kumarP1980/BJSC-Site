@@ -721,16 +721,19 @@
       updateUI(0);
     }
 
-    function updateUI(pageIndex) {
-      const curDisplayPage = pageIndex + 1;
+	function updateUI(pageIndex) {
+	  const curDisplayPage = pageIndex + 1;
 	  const nxtDisplayPage = pageIndex + 2;
-      if (curDisplayPage === 1) {
-		document.getElementById('pageDisplay').innerHTML = `Page <span>${curDisplayPage}</span>/ ${yearbookPages.length}`;
-	  } else {
-		document.getElementById('pageDisplay').innerHTML = `Page <span>${curDisplayPage}</span> - <span>${nxtDisplayPage}</span> / ${yearbookPages.length}`;
-	  }
-      document.getElementById('pageRange').value = curDisplayPage;
-    }
+	  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+	  const showSinglePage = curDisplayPage === 1 || isMobile;
+
+	  document.getElementById('pageDisplay').innerHTML = showSinglePage
+		? `Page <span>${curDisplayPage}</span>/ ${yearbookPages.length}`
+		: `Page <span>${curDisplayPage}</span> - <span>${nxtDisplayPage}</span> / ${yearbookPages.length}`;
+
+	  document.getElementById('pageRange').value = curDisplayPage;
+	}
 
       // Keyboard Controls
       window.addEventListener('keydown', (e) => {
